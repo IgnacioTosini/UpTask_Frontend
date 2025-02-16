@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PinInput, PinInputField } from '@chakra-ui/pin-input'
 import { useState } from "react";
 import { ConfirmToken } from "@/types/index";
@@ -7,6 +7,7 @@ import { confirmAccount } from "@/api/AuthAPI";
 import { toast } from "react-toastify";
 
 export const ConfirmAccountView = () => {
+    const navigate = useNavigate()
     const [token, setToken] = useState<ConfirmToken['token']>('')
 
     const handleChange = (token: ConfirmToken['token']) => {
@@ -20,6 +21,7 @@ export const ConfirmAccountView = () => {
         },
         onSuccess: (data) => {
             toast.success(data)
+            navigate('/auth/login')
         }
     })
     const handleComplete = (token: ConfirmToken['token']) => {
@@ -50,7 +52,6 @@ export const ConfirmAccountView = () => {
                     </PinInput>
                 </div>
             </form>
-
             <nav className="mt-10 flex flex-col space-y-4">
                 <Link
                     to='/auth/request-code'
@@ -59,7 +60,6 @@ export const ConfirmAccountView = () => {
                     Solicitar un nuevo Código
                 </Link>
             </nav>
-
         </>
     )
 }
