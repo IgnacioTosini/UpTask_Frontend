@@ -10,7 +10,7 @@ export const AppLayout = () => {
 
     if (isLoading) return 'Cargando...'
     if (isError) {
-        <Navigate to='/auth/login' />
+        return <Navigate to='/auth/login' />
     }
 
     if (data) return (

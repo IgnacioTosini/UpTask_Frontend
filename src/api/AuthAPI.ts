@@ -89,7 +89,7 @@ export async function updatePasswordWithToken({ formData, token }: { formData: N
 
 export async function getUser() {
     try {
-        const { data } = await api.get('/auth/user')
+        const { data } = await api('/auth/user')
         const response = userSchema.safeParse(data)
         if (response.success) {
             return response.data
