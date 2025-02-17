@@ -4,6 +4,7 @@ import { User, UserProfileForm } from "@/types/index"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { updateProfile } from "@/api/ProfileAPI"
 import { toast } from "react-toastify"
+import { SEO } from "@/components/SEO"
 
 type ProfileFormProps = {
     data: User
@@ -25,6 +26,12 @@ export const ProfileForm = ({ data }: ProfileFormProps) => {
 
     return (
         <>
+            <SEO
+                title="Perfil - UpTask"
+                description="Actualiza tu información de perfil en UpTask."
+                image={"profile.png?url"}
+                url="https://up-task-frontend-tawny.vercel.app/profile"
+            />
             <div className="mx-auto max-w-3xl g">
                 <h1 className="text-5xl font-black ">Mi Perfil</h1>
                 <p className="text-2xl font-light text-gray-500 mt-5">Aquí puedes actualizar tu información</p>
@@ -38,14 +45,16 @@ export const ProfileForm = ({ data }: ProfileFormProps) => {
                         <label
                             className="text-sm uppercase font-bold"
                             htmlFor="name"
-                        >Nombre</label>
+                        >
+                            Nombre
+                        </label>
                         <input
                             id="name"
                             type="text"
                             placeholder="Tu Nombre"
-                            className="w-full p-3  border border-gray-200"
+                            className="w-full p-3 border border-gray-200"
                             {...register("name", {
-                                required: "Nombre de usuario es obligatoro",
+                                required: "Nombre de usuario es obligatorio",
                             })}
                         />
                         {errors.name && (
@@ -56,15 +65,17 @@ export const ProfileForm = ({ data }: ProfileFormProps) => {
                     <div className="mb-5 space-y-3">
                         <label
                             className="text-sm uppercase font-bold"
-                            htmlFor="password"
-                        >E-mail</label>
+                            htmlFor="email"
+                        >
+                            E-mail
+                        </label>
                         <input
-                            id="text"
+                            id="email"
                             type="email"
                             placeholder="Tu Email"
-                            className="w-full p-3  border border-gray-200"
+                            className="w-full p-3 border border-gray-200"
                             {...register("email", {
-                                required: "EL e-mail es obligatorio",
+                                required: "El e-mail es obligatorio",
                                 pattern: {
                                     value: /\S+@\S+\.\S+/,
                                     message: "E-mail no válido",

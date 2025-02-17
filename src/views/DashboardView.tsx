@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from '@/hooks/useAuth'
 import { isManager } from '@/utils/policies'
 import { DeleteProjectModal } from '@/components/projects/DeleteProjectModal'
+import { SEO } from '@/components/SEO'
 
 export const DashboardView = () => {
     const navigate = useNavigate()
@@ -20,6 +21,12 @@ export const DashboardView = () => {
     if (isLoading && authLoading) return 'Cargando...'
     if (data && user) return (
         <>
+            <SEO
+                title="Dashboard - UpTask"
+                description="Visualiza y administra tus proyectos en UpTask."
+                image={"/dashboard.png?url"}
+                url="https://up-task-frontend-tawny.vercel.app"
+            />
             <h1 className="text-5xl font-black">Mis Proyectos</h1>
             <p className="text-2xl font-light text-gray-500 mt-5">Maneja y Administra tus proyectos</p>
             <nav className="my-5">
@@ -37,15 +44,21 @@ export const DashboardView = () => {
                             <div className="flex min-w-0 gap-x-4">
                                 <div className="min-w-0 flex-auto space-y-2">
                                     <div className='mb-2'>
-                                        {isManager(project.manager, user._id) ?
-                                            <p className='font-bold text-xs uppercase bg-indigo-50 text-indigo-500 border-2 border-indigo-500 rounded-lg inline-block py-1 px-5'>Manager</p>
-                                            :
-                                            <p className='font-bold text-xs uppercase bg-green-50 text-green-500 border-2 border-green-500 rounded-lg inline-block py-1 px-5'>Colaborador</p>
-                                        }
+                                        {isManager(project.manager, user._id) ? (
+                                            <p className="font-bold text-xs uppercase bg-indigo-50 text-indigo-500 border-2 border-indigo-500 rounded-lg inline-block py-1 px-5">
+                                                Manager
+                                            </p>
+                                        ) : (
+                                            <p className="font-bold text-xs uppercase bg-green-50 text-green-500 border-2 border-green-500 rounded-lg inline-block py-1 px-5">
+                                                Colaborador
+                                            </p>
+                                        )}
                                     </div>
                                     <Link to={`/projects/${project._id}`}
                                         className="text-gray-600 cursor-pointer hover:underline text-3xl font-bold"
-                                    >{project.projectName}</Link>
+                                    >
+                                        {project.projectName}
+                                    </Link>
                                     <p className="text-sm text-gray-400">
                                         Cliente: {project.clientName}
                                     </p>
@@ -64,12 +77,10 @@ export const DashboardView = () => {
                                         enterFrom="transform opacity-0 scale-95" enterTo="transform opacity-100 scale-100"
                                         leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100"
                                         leaveTo="transform opacity-0 scale-95">
-                                        <MenuItems
-                                            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
-                                        >
+                                        <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                                             <MenuItem>
                                                 <Link to={`/projects/${project._id}`}
-                                                    className='block px-3 py-1 text-sm leading-6 text-gray-900'>
+                                                    className="block px-3 py-1 text-sm leading-6 text-gray-900">
                                                     Ver Proyecto
                                                 </Link>
                                             </MenuItem>
@@ -77,14 +88,13 @@ export const DashboardView = () => {
                                                 <>
                                                     <MenuItem>
                                                         <Link to={`/projects/${project._id}/edit`}
-                                                            className='block px-3 py-1 text-sm leading-6 text-gray-900'>
+                                                            className="block px-3 py-1 text-sm leading-6 text-gray-900">
                                                             Editar Proyecto
                                                         </Link>
                                                     </MenuItem>
                                                     <MenuItem>
-                                                        <button
-                                                            type='button'
-                                                            className='block px-3 py-1 text-sm leading-6 text-red-500'
+                                                        <button type="button"
+                                                            className="block px-3 py-1 text-sm leading-6 text-red-500"
                                                             onClick={() => navigate(location.pathname + `?deleteProject=${project._id}`)}
                                                         >
                                                             Eliminar Proyecto
@@ -99,17 +109,14 @@ export const DashboardView = () => {
                         </li>
                     ))}
                 </ul>
-            ) :
-                (
-                    <p className="text-center py-20">
-                        No hay Proyectos aún {''}
-                        <Link
-                            to='/projects/create'
-                            className="text-fuchsia-500 font-bold"
-                        >Crear Proyecto
-                        </Link>
-                    </p>
-                )}
+            ) : (
+                <p className="text-center py-20">
+                    No hay Proyectos aún{' '}
+                    <Link to='/projects/create' className="text-fuchsia-500 font-bold">
+                        Crear Proyecto
+                    </Link>
+                </p>
+            )}
             <DeleteProjectModal />
         </>
     )

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { updateProject } from "@/api/ProjectAPI"
 import { toast } from "react-toastify"
+import { SEO } from "@/components/SEO"
 
 type EditProjectFormProps = {
     data: ProjectFormData
@@ -35,33 +36,41 @@ export const EditProjectForm = ({ data, projectId }: EditProjectFormProps) => {
         }
     })
     const handleForm = (formData: ProjectFormData) => {
-        const data = {
+        const updateData = {
             formData,
             projectId
         }
-        mutate(data)
+        mutate(updateData)
     }
     return (
         <>
+            <SEO
+                title="Editar Proyecto - UpTask"
+                description="Edita los detalles de tu proyecto en UpTask."
+                image="/edit-project.png?url"
+                url={`https://up-task-frontend-tawny.vercel.app/projects/${projectId}/edit`}
+            />
             <div className="max-w-3xl mx-auto">
                 <h1 className="text-5xl font-black">Editar Proyecto</h1>
-                <p className="text-2xl font-light text-gray-500 mt-5">Llena el siguiente formulario para editar el proyecto</p>
-
+                <p className="text-2xl font-light text-gray-500 mt-5">
+                    Llena el siguiente formulario para editar el proyecto
+                </p>
                 <nav className="my-5">
                     <Link
                         className="bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
                         to='/'
-                    >Volver a Proyectos
+                    >
+                        Volver a Proyectos
                     </Link>
                 </nav>
-
                 <form
                     className="mt-10 bg-white shadow-lg p-10 rounded-b-lg"
                     onSubmit={handleSubmit(handleForm)}
                     noValidate
                 >
-                    <ProjectForm register={register} errors={errors}></ProjectForm>
-                    <input type="submit"
+                    <ProjectForm register={register} errors={errors} />
+                    <input
+                        type="submit"
                         value='Guardar Cambios'
                         className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3 text-white uppercase font-bold cursor-pointer transition-colors"
                     />

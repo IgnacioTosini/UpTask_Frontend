@@ -2,48 +2,55 @@ import { changePassword } from "@/api/ProfileAPI";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { UpdateCurrentUserPasswordForm } from "@/types/index";
 import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { SEO } from "@/components/SEO";
 
 export const ChangePasswordView = () => {
   const initialValues: UpdateCurrentUserPasswordForm = {
     current_password: '',
     password: '',
     password_confirmation: ''
-  }
+  };
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues: initialValues })
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues: initialValues });
   const { mutate } = useMutation({
     mutationFn: changePassword,
     onError: (error) => toast.error(error.message),
     onSuccess: (data) => toast.success(data)
-  })
+  });
 
   const password = watch('password');
-  const handleChangePassword = (formData: UpdateCurrentUserPasswordForm) => mutate(formData)
+  const handleChangePassword = (formData: UpdateCurrentUserPasswordForm) => mutate(formData);
 
   return (
     <>
+      <SEO
+        title="Cambiar Password - UpTask"
+        description="Utiliza este formulario para cambiar tu password en UpTask."
+        image={"change-password.png?url"}
+        url="https://up-task-frontend-tawny.vercel.app/profile/password"
+      />
       <div className="mx-auto max-w-3xl">
-
         <h1 className="text-5xl font-black ">Cambiar Password</h1>
         <p className="text-2xl font-light text-gray-500 mt-5">Utiliza este formulario para cambiar tu password</p>
-
         <form
           onSubmit={handleSubmit(handleChangePassword)}
-          className=" mt-14 space-y-5 bg-white shadow-lg p-10 rounded-lg"
+          className="mt-14 space-y-5 bg-white shadow-lg p-10 rounded-lg"
           noValidate
         >
           <div className="mb-5 space-y-3">
             <label
               className="text-sm uppercase font-bold"
               htmlFor="current_password"
-            >Password Actual</label>
+            >
+              Password Actual
+            </label>
             <input
               id="current_password"
               type="password"
               placeholder="Password Actual"
-              className="w-full p-3  border border-gray-200"
+              className="w-full p-3 border border-gray-200"
               {...register("current_password", {
                 required: "El password actual es obligatorio",
               })}
@@ -52,17 +59,18 @@ export const ChangePasswordView = () => {
               <ErrorMessage>{errors.current_password.message}</ErrorMessage>
             )}
           </div>
-
           <div className="mb-5 space-y-3">
             <label
               className="text-sm uppercase font-bold"
               htmlFor="password"
-            >Nuevo Password</label>
+            >
+              Nuevo Password
+            </label>
             <input
               id="password"
               type="password"
               placeholder="Nuevo Password"
-              className="w-full p-3  border border-gray-200"
+              className="w-full p-3 border border-gray-200"
               {...register("password", {
                 required: "El Nuevo Password es obligatorio",
                 minLength: {
@@ -79,13 +87,14 @@ export const ChangePasswordView = () => {
             <label
               htmlFor="password_confirmation"
               className="text-sm uppercase font-bold"
-            >Repetir Password</label>
-
+            >
+              Repetir Password
+            </label>
             <input
               id="password_confirmation"
               type="password"
               placeholder="Repetir Password"
-              className="w-full p-3  border border-gray-200"
+              className="w-full p-3 border border-gray-200"
               {...register("password_confirmation", {
                 required: "Este campo es obligatorio",
                 validate: value => value === password || 'Los Passwords no son iguales'
@@ -95,7 +104,6 @@ export const ChangePasswordView = () => {
               <ErrorMessage>{errors.password_confirmation.message}</ErrorMessage>
             )}
           </div>
-
           <input
             type="submit"
             value='Cambiar Password'
@@ -104,5 +112,5 @@ export const ChangePasswordView = () => {
         </form>
       </div>
     </>
-  )
-}
+  );
+};

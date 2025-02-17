@@ -6,6 +6,7 @@ import { EllipsisVerticalIcon } from "@heroicons/react/20/solid"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import { toast } from "react-toastify"
+import { SEO } from "@/components/SEO"
 
 export const ProjectTeamView = () => {
     const navigate = useNavigate()
@@ -34,6 +35,12 @@ export const ProjectTeamView = () => {
     if (isError) return <Navigate to={'/404'} />
     if (data) return (
         <>
+            <SEO
+                title="Equipo - UpTask"
+                description="Administra el equipo de trabajo para este proyecto."
+                image="/project-team.png?url"
+                url={`https://up-task-frontend-tawny.vercel.app/projects/${projectId}/team`}
+            />
             <h1 className="text-5xl font-black">Administrar Equipo</h1>
             <p className="text-2xl font-light text-gray-500 mt-5">Administra el equipo de trabajo para este proyecto</p>
             <nav className="my-5 flex gap-3">
